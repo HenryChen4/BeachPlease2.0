@@ -11,10 +11,12 @@ import android.view.View;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -28,12 +30,20 @@ import com.google.android.libraries.places.api.net.FetchPlaceRequest;
 import com.google.android.libraries.places.api.net.FetchPlaceResponse;
 import com.google.android.gms.tasks.Task;
 import com.github.pwittchen.weathericonview.WeatherIconView;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Calendar;
@@ -64,6 +74,32 @@ interface OnCurrentWeatherFind {
 
 interface OnDayForecastFind {
     void onDayForecastFound(double[] daily_temps, int[] weather_codes);
+}
+
+interface OnAverageRatingFind{
+    void onAverageRatingFound(double average_rating);
+}
+
+interface OnUsernameFind{
+    void onUsernameFound(String username);
+}
+
+interface OnReviewFind{
+    void onReviewFound(BeachReview beachReview);
+}
+
+class BeachReview{
+    public String username;
+    public double beach_rating;
+    public List<String> tags;
+    public String review_body;
+
+    public BeachReview(String username, double beach_rating, List<String> tags, String review_body){
+        this.username = username;
+        this.beach_rating = beach_rating;
+        this.tags = tags;
+        this.review_body = review_body;
+    }
 }
 
 public class Beach_Info extends AppCompatActivity {
@@ -135,8 +171,103 @@ public class Beach_Info extends AppCompatActivity {
         // get weather data of beach
         fetchWeatherRoutine(beach_coords);
 
-        // TODO: run database code to view reviews
+        // post overview of beach
+        fetchOverviewRoutine();
 
+        // run database code to view reviews
+        fetchAllUserReviews(global_beach_name, new OnReviewFind() {
+            @Override
+            public void onReviewFound(BeachReview beachReview) {
+                runOnUiThread(() -> {
+                    // review wrapper
+                    LinearLayout review_wrapper = new LinearLayout(Beach_Info.this);
+                    LinearLayout.LayoutParams review_wrapper_params = new LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.MATCH_PARENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT
+                    );
+                    review_wrapper.setOrientation(LinearLayout.VERTICAL);
+                    review_wrapper_params.setMargins(0, 0, 0, 16);
+                    review_wrapper.setPadding(16, 16, 16, 16);
+
+                    // rating and username
+                    LinearLayout user_rating_wrapper = new LinearLayout(Beach_Info.this);
+                    user_rating_wrapper.setLayoutParams(new LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.MATCH_PARENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT
+                    ));
+                    user_rating_wrapper.setOrientation(LinearLayout.HORIZONTAL);
+                    user_rating_wrapper.setPadding(0, 16, 0, 16);
+                    user_rating_wrapper.setGravity(Gravity.CENTER);
+
+                    // username
+                    TextView username_tv = new TextView(Beach_Info.this);
+                    username_tv.setLayoutParams(new LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.WRAP_CONTENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT
+                    ));
+                    username_tv.setText(beachReview.username);
+                    username_tv.setTextSize(20);
+                    username_tv.setTextColor(Color.BLACK);
+                    username_tv.setGravity(Gravity.CENTER_VERTICAL);
+                    username_tv.setTypeface(null, Typeface.BOLD);
+
+                    // rating bar
+                    RatingBar ratingBar = new RatingBar(Beach_Info.this, null, android.R.attr.ratingBarStyleSmall);
+                    LinearLayout.LayoutParams ratingLayoutParams = new LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.WRAP_CONTENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT
+                    );
+                    ratingLayoutParams.setMarginStart(120);
+                    ratingBar.setLayoutParams(ratingLayoutParams);
+                    ratingBar.setRating((float) beachReview.beach_rating);
+                    ratingBar.setStepSize(1);
+
+                    user_rating_wrapper.addView(username_tv);
+                    user_rating_wrapper.addView(ratingBar);
+
+                    // tags
+                    ChipGroup chipGroup = new ChipGroup(Beach_Info.this);
+                    chipGroup.setLayoutParams(new LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.WRAP_CONTENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT
+                    ));
+
+                    for (String chipText : beachReview.tags) {
+                        Chip chip = new Chip(Beach_Info.this);
+                        chip.setLayoutParams(new LinearLayout.LayoutParams(
+                                LinearLayout.LayoutParams.WRAP_CONTENT,
+                                LinearLayout.LayoutParams.WRAP_CONTENT
+                        ));
+                        chip.setText(chipText);
+                        chip.setTextSize(12);
+                        chip.setTextColor(Color.parseColor("#f7fff7"));
+                        chip.setChipBackgroundColorResource(android.R.color.holo_red_light);
+                        chip.setChipCornerRadius(100f);
+                        chipGroup.addView(chip);
+                    }
+
+                    // review body
+                    TextView commentTextView = new TextView(Beach_Info.this);
+                    commentTextView.setLayoutParams(new LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.MATCH_PARENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT
+                    ));
+                    commentTextView.setText(beachReview.review_body);
+                    commentTextView.setTextSize(16);
+                    LinearLayout.LayoutParams commentLayoutParams = (LinearLayout.LayoutParams) commentTextView.getLayoutParams();
+                    commentLayoutParams.setMargins(0, 0, 0, 10);
+                    commentTextView.setLayoutParams(commentLayoutParams);
+
+                    // add everything
+                    review_wrapper.addView(user_rating_wrapper);
+                    review_wrapper.addView(chipGroup);
+                    review_wrapper.addView(commentTextView);
+
+                    LinearLayout beach_review_wrapper = (LinearLayout) findViewById(R.id.beach_review_wrapper);
+                    beach_review_wrapper.addView(review_wrapper, review_wrapper_params);
+                });
+            }
+        });
     }
 
     private void fetchWeatherRoutine(String beach_coords){
@@ -690,5 +821,205 @@ public class Beach_Info extends AppCompatActivity {
             }
         });
         thread.start();
+    }
+
+    private void fetchOverviewRoutine(){
+        mostPopularTags(global_beach_name, new OnMostTagsFind() {
+            @Override
+            public void onMostTagsFound(String[] most_used_tags) {
+                if(most_used_tags.length == 0){
+                    runOnUiThread(() -> {
+                        TextView no_tags = (TextView) findViewById(R.id.no_tags_header);
+                        no_tags.setVisibility(View.VISIBLE);
+                        ChipGroup most_pop_tags = (ChipGroup) findViewById(R.id.most_pop_tags);
+                        most_pop_tags.setVisibility(View.GONE);
+                    });
+                } else {
+                    runOnUiThread(() -> {
+                        TextView no_tags = (TextView) findViewById(R.id.no_tags_header);
+                        no_tags.setVisibility(View.GONE);
+                        ChipGroup most_pop_tags = (ChipGroup) findViewById(R.id.most_pop_tags);
+                        most_pop_tags.setVisibility(View.VISIBLE);
+
+                        if(most_used_tags.length == 1){
+                            Chip most_pop_tag_1 = (Chip) findViewById(R.id.most_pop_tag_1);
+                            most_pop_tag_1.setText(most_used_tags[0]);
+                            most_pop_tag_1.setVisibility(View.VISIBLE);
+                        } else {
+                            Chip most_pop_tag_1 = (Chip) findViewById(R.id.most_pop_tag_1);
+                            most_pop_tag_1.setText(most_used_tags[0]);
+                            most_pop_tag_1.setVisibility(View.VISIBLE);
+                            Chip most_pop_tag_2 = (Chip) findViewById(R.id.most_pop_tag_2);
+                            most_pop_tag_2.setText(most_used_tags[1]);
+                            most_pop_tag_2.setVisibility(View.VISIBLE);
+                        }
+                    });
+                }
+            }
+        });
+        averageRating(global_beach_name, new OnAverageRatingFind() {
+            @Override
+            public void onAverageRatingFound(double average_rating) {
+                runOnUiThread(() -> {
+                    RatingBar overview_rating_bar = (RatingBar) findViewById(R.id.overview_rating);
+                    overview_rating_bar.setRating((float) average_rating);
+                });
+            }
+        });
+    }
+
+    private void averageRating(String beach_name, OnAverageRatingFind onAverageRatingFind){
+        FirebaseDatabase database = FirebaseDatabase.getInstance("https://beachplease-database-default-rtdb.firebaseio.com/");
+        DatabaseReference database_ref = database.getReference("Review");
+
+        database_ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                double average_rating = 0;
+                double rating_count = 0;
+                for(DataSnapshot review_snapshot : snapshot.getChildren()){
+                    String beachName = review_snapshot.child("beachName").getValue(String.class);
+                    if(beachName != null){
+                        if(beachName.equals(beach_name)){
+                            rating_count += 1;
+                            double num_stars = review_snapshot.child("numStars").getValue(Double.class);
+                            average_rating += num_stars;
+                        }
+                    }
+                }
+                onAverageRatingFind.onAverageRatingFound(average_rating/rating_count);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.i("str", "error retrieving average rating");
+            }
+        });
+    }
+
+    private void fetchUsername(String user_id, OnUsernameFind onUsernameFind){
+        FirebaseDatabase database = FirebaseDatabase.getInstance("https://beachplease-database-default-rtdb.firebaseio.com/");
+        DatabaseReference database_ref = database.getReference("User");
+
+        database_ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot user_snapshot : snapshot.getChildren()){
+                    Log.i("st", user_id);
+                    Log.i("st", "compared: " + user_snapshot.getKey().toString());
+                    Log.i("st", "result: " + user_snapshot.getKey().toString().equals(user_id));
+                    if(user_snapshot.getKey().toString().strip().equals(user_id.strip())){
+                        String username = user_snapshot.child("username").getValue(String.class);
+                        onUsernameFind.onUsernameFound(username);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.i("str", "cant find username");
+            }
+        });
+    }
+
+    private void fetchAllUserReviews(String beach_name, OnReviewFind onReviewFind){
+        FirebaseDatabase database = FirebaseDatabase.getInstance("https://beachplease-database-default-rtdb.firebaseio.com/");
+        DatabaseReference database_ref = database.getReference("Review");
+
+        database_ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot review_snapshot : snapshot.getChildren()){
+                    String review_beach_name = review_snapshot.child("beachName").getValue(String.class);
+                    if(review_beach_name != null){
+                        if(review_beach_name.equals(beach_name)){
+                            int num_stars = review_snapshot.child("numStars").getValue(Integer.class);
+                            List<String> activity_tags = new ArrayList<>();
+                            for(DataSnapshot tagSnapshot : review_snapshot.child("activityTags").getChildren()) {
+                                String tag = tagSnapshot.getValue(String.class);
+                                activity_tags.add(tag);
+                            }
+                            String review_body = review_snapshot.child("reviewComment").getValue(String.class);
+                            fetchUsername(review_snapshot.child("userId").getValue(String.class), new OnUsernameFind() {
+                                @Override
+                                public void onUsernameFound(String username) {
+                                    BeachReview beach_review = new BeachReview(username, num_stars, activity_tags, review_body);
+                                    onReviewFind.onReviewFound(beach_review);
+                                }
+                            });
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.i("str", "username not found");
+            }
+        });
+    }
+
+    private void mostPopularTags(String beach_name, OnMostTagsFind onMostTagsFind){
+        // return 2 most popular tags
+        FirebaseDatabase database = FirebaseDatabase.getInstance("https://beachplease-database-default-rtdb.firebaseio.com/");
+        DatabaseReference database_ref = database.getReference("Review");
+
+        String[] available_tags = {"Swim", "Surf", "Tan", "Volleyball", "Sunset"};
+
+        database_ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                int[] tag_count = {0, 0, 0, 0, 0};
+                for(DataSnapshot reviewSnapShot : snapshot.getChildren()){
+                    String beachName = reviewSnapShot.child("beachName").getValue(String.class);
+                    if(beachName != null){
+                        if(beachName.equals(beach_name)){
+                            ArrayList<String> activity_tags = new ArrayList<>();
+                            for(DataSnapshot tagSnapshot : reviewSnapShot.child("activityTags").getChildren()) {
+                                String tag = tagSnapshot.getValue(String.class);
+                                activity_tags.add(tag);
+                            }
+                            for(String tag : activity_tags){
+                                for(int i = 0; i < available_tags.length; i++){
+                                    if(tag.equals(available_tags[i])){
+                                        tag_count[i]++;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                int first_idx = -1;
+                int second_idx = -1;
+                for(int i = 0; i < tag_count.length-1; i++){
+                    int first = tag_count[i];
+                    int second = tag_count[i + 1];
+                    if(second > first){
+                        first_idx = i + 1;
+                        second_idx = i;
+                    }
+                }
+
+                String first_tagged = "";
+                String second_tagged = "";
+
+                if(first_idx != -1 && second_idx != -1){
+                    first_tagged = available_tags[first_idx];
+                    second_tagged = available_tags[second_idx];
+                } else if(first_idx != -1){
+                    first_tagged = available_tags[first_idx];
+                }
+
+                String[] most_tagged = {first_tagged, second_tagged};
+                onMostTagsFind.onMostTagsFound(most_tagged);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.i("str", "error when calculating tags");
+            }
+        });
     }
 }
