@@ -2,6 +2,7 @@ package com.example.beachplease;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -41,6 +42,12 @@ public class ViewUserActivity  extends AppCompatActivity {
     private FirebaseDatabase database;
     private String username;
     private String userId;
+
+    // view images at bottom
+    private ArrayList<Uri> imageUriList;
+    private ArrayList<String> selectedImageUris;
+    private RecyclerView imagesRecyclerView;
+    private ImagesAdapter imagesAdapter;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -111,7 +118,7 @@ public class ViewUserActivity  extends AppCompatActivity {
                 Intent intent = new Intent(ViewUserActivity.this, EditReviewActivity.class);
 
                 // Pass the review attributes through the Intent
-//                intent.putExtra("Review_ID", review.getReviewText());
+                intent.putExtra("Review_ID", review.getReviewId());
                 intent.putExtra("Beach_Name", review.getBeachName());
                 intent.putExtra("Num_Stars", review.getNumStars());
                 intent.putExtra("Review_Comment", review.getReviewComment());

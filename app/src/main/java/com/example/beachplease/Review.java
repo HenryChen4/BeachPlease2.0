@@ -30,19 +30,21 @@ public class Review {
     private List<String> Review_Pictures;
     private String User_ID;
     private List<String> Activity_Tags;
+    private String Review_ID;
 
     // Default Constructor
     public Review() {
     }
 
     // Created Constructor
-    public Review(String Beach_Name, float Num_Stars, String Review_Comment, List<String> Review_Pictures, String User_ID, List<String> Activity_Tags) {
+    public Review(String Beach_Name, float Num_Stars, String Review_Comment, List<String> Review_Pictures, String User_ID, List<String> Activity_Tags, String Review_ID) {
         this.Beach_Name = Beach_Name;
         this.Num_Stars = Num_Stars;
         this.Review_Comment = Review_Comment;
         this.Review_Pictures = Review_Pictures;
         this.User_ID = User_ID;
         this.Activity_Tags = Activity_Tags;
+        this.Review_ID = Review_ID;
     }
 
     // Getters and Setters
@@ -86,6 +88,13 @@ public class Review {
     }
     public void setActivityTags(List<String> activityTags) {
         this.Activity_Tags = activityTags;
+    }
+
+    public String getReviewId() {
+        return Review_ID;
+    }
+    public void setReviewId(String reviewId) {
+        this.Review_ID = reviewId;
     }
 
     // Calls the average stars to MainActivity
@@ -155,7 +164,8 @@ public class Review {
                 reviewComment,
                 reviewPictures,
                 userID,
-                activityTags
+                activityTags,
+                reviewID
         );
 
         Log.d("ReviewUpload", "In Reviews, attempting to add review with stars: " + numStars);
@@ -190,7 +200,8 @@ public class Review {
                 Review_Comment,
                 Review_Picture,
                 User_ID,
-                Activity_Tags
+                Activity_Tags,
+                reviewID
         );
 
         if (reviewID != null && Num_Stars > 0) {
@@ -326,6 +337,12 @@ public class Review {
     }
 
     public void deleteReview(String reviewID, UploadCallback callback) {
+        if (reviewID == null || reviewID.isEmpty()) {
+            Log.e("str", "Error: Review ID is null or empty.");
+            callback.onFailure();
+            return;
+        }
+
         DatabaseReference deleteReviewRef = database.getReference("Review").child(reviewID);
 
         // Delete the review

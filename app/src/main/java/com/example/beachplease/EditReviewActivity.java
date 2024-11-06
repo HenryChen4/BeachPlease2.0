@@ -59,6 +59,8 @@ public class EditReviewActivity extends AppCompatActivity {
     private Button deleteButton;
     private DatabaseReference databaseReference;
 
+    private String public_review_id;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +82,7 @@ public class EditReviewActivity extends AppCompatActivity {
         System.out.println("Print activity msg");
         Log.d("EditReviewActivity", "Received Activity Tags: " + old_activityTags);
 
+        public_review_id = review_id;
 
         String user_id = "-1";
         SharedPreferences local_storage = getSharedPreferences("user_info", MODE_PRIVATE);
@@ -259,7 +262,7 @@ public class EditReviewActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Log the values to Logcat
-                Log.i("Review Deletion", "Review id: " + review_id);
+                Log.i("Review Deletion", "Review id: " + public_review_id);
 
                 // Create an AlertDialog to confirm deletion
                 new AlertDialog.Builder(EditReviewActivity.this)
@@ -272,7 +275,7 @@ public class EditReviewActivity extends AppCompatActivity {
                                 Review reviewInstance = new Review();
 
                                 // Set up a success listener
-                                reviewInstance.deleteReview(review_id, new Review.UploadCallback() {
+                                reviewInstance.deleteReview(public_review_id, new Review.UploadCallback() {
                                     @Override
                                     public void onSuccess() {
                                         System.out.println("Deletion success");

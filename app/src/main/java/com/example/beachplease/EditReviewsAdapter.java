@@ -1,9 +1,12 @@
 package com.example.beachplease;
 
 
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -21,6 +24,7 @@ public class EditReviewsAdapter extends RecyclerView.Adapter<EditReviewsAdapter.
 
     private List<Review> reviewsList;
     private OnEditClickListener editClickListener;
+    String reviewID;
 
 
     public EditReviewsAdapter(List<Review> reviewsList) {
@@ -55,6 +59,8 @@ public class EditReviewsAdapter extends RecyclerView.Adapter<EditReviewsAdapter.
         TextView numStars;
         RatingBar reviewStars;
         ChipGroup activityTags;
+        RecyclerView imagesRecyclerView;
+        ImageView editIcon;
 
         public ReviewViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -63,6 +69,7 @@ public class EditReviewsAdapter extends RecyclerView.Adapter<EditReviewsAdapter.
             numStars = itemView.findViewById(R.id.numStars);
             beachName = itemView.findViewById(R.id.beachName);
             activityTags = itemView.findViewById(R.id.activityTags);
+            editIcon = itemView.findViewById(R.id.editIcon);
         }
 
         public void bind(Review review) {
@@ -70,7 +77,24 @@ public class EditReviewsAdapter extends RecyclerView.Adapter<EditReviewsAdapter.
             beachName.setText(review.getBeachName());
             reviewStars.setRating(review.getNumStars());
             numStars.setText("(" + String.valueOf((int)review.getNumStars()) + "/5)");
+            reviewID = review.getReviewId();
+
             setActivityTags(review.getActivityTags());
+
+            // Set the click listener for the edit icon
+            editIcon.setOnClickListener(v -> {
+                // Redirect to a new page (e.g., EditReviewActivity)
+                Intent intent = new Intent(v.getContext(), EditReviewActivity.class);
+
+                intent.putExtra("Review_ID", reviewID);
+                intent.putExtra("Beach_Name", review.getBeachName());
+                intent.putExtra("Num_Stars", review.getNumStars());
+                intent.putExtra("Review_Comment", review.getReviewComment());
+                intent.putStringArrayListExtra("Activity_Tags", (ArrayList<String>) review.getActivityTags());
+                intent.putStringArrayListExtra("Review_Pictures", (ArrayList<String>) review.getReviewPictures());
+
+                v.getContext().startActivity(intent);
+            });
         }
 
         public void setActivityTags(List<String> tags) {
@@ -79,7 +103,6 @@ public class EditReviewsAdapter extends RecyclerView.Adapter<EditReviewsAdapter.
             }
 
             // Find the ChipGroup and each Chip by their ID
-//            ChipGroup chipGroup = findViewById(R.id.activityTagsChipGroup);
             Chip chipSwimming = activityTags.findViewById(R.id.chipSwimming);
             Chip chipSurfing = activityTags.findViewById(R.id.chipSurfing);
             Chip chipSunbathing = activityTags.findViewById(R.id.chipSunbathing);

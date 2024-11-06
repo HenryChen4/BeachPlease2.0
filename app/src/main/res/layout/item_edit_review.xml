@@ -77,6 +77,8 @@
                     android:layout_height="wrap_content"
                     android:text="Swim"
                     android:textSize="12dp"
+                    android:clickable="false"
+                    android:focusable="false"
                     app:chipBackgroundColor="#fac5c8"
                     app:chipIconVisible="false"
                     app:closeIconEnabled="false" />
@@ -88,6 +90,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Surf"
+                    android:clickable="false"
+                    android:focusable="false"
                     app:chipBackgroundColor="#a7c8fa"
                     app:chipIconVisible="false"
                     app:closeIconEnabled="false" />
@@ -99,6 +103,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Tan"
+                    android:clickable="false"
+                    android:focusable="false"
                     app:chipBackgroundColor="#f9fac5"
                     app:chipIconVisible="false"
                     app:closeIconEnabled="false" />
@@ -110,6 +116,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Volleyball"
+                    android:clickable="false"
+                    android:focusable="false"
                     app:chipBackgroundColor="#dbbbf2"
                     app:chipIconVisible="false"
                     app:closeIconEnabled="false" />
@@ -121,6 +129,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Sunset"
+                    android:clickable="false"
+                    android:focusable="false"
                     app:chipBackgroundColor="#facea7"
                     app:chipIconVisible="false"
                     app:closeIconEnabled="false" />
@@ -131,9 +141,19 @@
                 android:id="@+id/reviewComment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="5 stars"
+                android:text="Review comments"
                 android:textSize="14sp"
                 android:textColor="@android:color/darker_gray" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/imagesRecyclerView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/reviewComment" />
+
         </LinearLayout>
 
         <!-- Edit Icon -->
