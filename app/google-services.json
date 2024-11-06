@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "946877407409",
+    "firebase_url": "https://beachplease-database-default-rtdb.firebaseio.com",
+    "project_id": "beachplease-database",
+    "storage_bucket": "beachplease-database.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:946877407409:android:f906e0df28be6534f1c290",
+        "android_client_info": {
+          "package_name": "com.example.beachplease"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyArT_mvqRMoer1d5T17nmdDK4U-rIZiHGY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

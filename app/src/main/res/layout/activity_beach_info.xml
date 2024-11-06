@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Beach_Info">
+
+    <TextView
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif"
+        android:text="BEACHPLEASE"
+        android:textFontWeight="900"
+        android:textSize="28sp"
+        android:textColor="@android:color/white"
+        android:gravity="left"
+        android:padding="32dp"
+        android:background="#023047"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/main_content_scroll_view" />
+
+
+    <ScrollView
+        android:id="@+id/main_content_scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        android:background="#f4f1de"
+        app:layout_constraintBottom_toTopOf="@+id/footer"
+        app:layout_constraintTop_toBottomOf="@+id/header">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/beach_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:gravity="center"
+                android:text=""
+                android:textColor="#e07a5f"
+                android:textFontWeight="900"
+                android:textSize="28sp"
+                android:layout_marginBottom="8dp"/>
+
+            <TextView
+                android:id="@+id/operating_hours"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:gravity="center"
+                android:text=""
+                android:textColor="#81b29a"
+                android:textFontWeight="900"
+                android:textSize="20sp"
+                android:layout_marginBottom="8dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:padding="8dp"
+                android:paddingBottom="0dp"
+                android:layout_marginBottom="0dp">
+
+                <com.github.pwittchen.weathericonview.WeatherIconView
+                    android:id="@+id/current_weather"
+                    android:layout_width="120sp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="0dp"
+                    android:layout_marginRight="10dp"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:id="@+id/cloud_cover"
+                    android:layout_width="120sp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="0dp"
+                    android:layout_marginRight="10dp"
+                    android:fontFamily="sans-serif"
+                    android:textFontWeight="900"
+                    android:gravity="center"
+                    android:textSize="32sp"/>
+
+                <TextView
+                    android:id="@+id/wave_height"
+                    android:layout_width="120sp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="0dp"
+                    android:fontFamily="sans-serif"
+                    android:textFontWeight="900"
+                    android:gravity="center"
+                    android:textSize="32sp"
+                    android:text=""/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginTop="0dp"
+                android:padding="0dp"
+                android:paddingTop="0dp"
+                android:layout_marginBottom="-20dp">
+
+                <TextView
+                    android:id="@+id/current_weather_label"
+                    android:layout_width="120sp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginRight="10dp"
+                    android:fontFamily="sans-serif"
+                    android:textFontWeight="900"
+                    android:gravity="center"
+                    android:textSize="16sp"
+                    android:paddingBottom="64dp"
+                    android:text="Weather"/>
+
+                <TextView
+                    android:id="@+id/water_temp_label"
+                    android:layout_width="120sp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="8dp"
+                    android:fontFamily="sans-serif"
+                    android:gravity="center"
+                    android:text="Cloud cover"
+                    android:textFontWeight="900"
+                    android:paddingBottom="64dp"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/wave_height_label"
+                    android:layout_width="120sp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:fontFamily="sans-serif"
+                    android:textFontWeight="900"
+                    android:paddingBottom="64dp"
+                    android:gravity="center"
+                    android:textSize="16sp"
+                    android:text="Wave height"/>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="24 Hour Forecast"
+                android:fontFamily="sans-serif"
+                android:textFontWeight="900"
+                android:textSize="12dp"
+                android:textAlignment="center"
+                android:textColor="@color/quantum_grey"
+                android:layout_marginBottom="0dp"
+                android:layout_marginTop="-40dp"
+                android:padding="0dp"/>
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="24dp"
+                android:layout_marginBottom="0dp"
+                android:background="#fdfcdc">
+
+                <LinearLayout
+                    android:id="@+id/day_forecast"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+                </LinearLayout>
+
+            </HorizontalScrollView>
+
+
+        </LinearLayout>
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/footer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#023047"
+        android:gravity="left"
+        android:padding="32dp"
+        android:textColor="@android:color/white"
+        android:textSize="28sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/main_content_scroll_view"
+        tools:layout_editor_absoluteX="16dp" />
+
+    <ImageView
+        android:id="@+id/home_button"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        app:layout_constraintEnd_toEndOf="@id/footer"
+        app:layout_constraintHorizontal_bias="0.15"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="@id/footer"
+        app:layout_constraintTop_toTopOf="@id/footer"
+        custom:srcCompat="@drawable/baseline_home_24" />
+
+    <ImageView
+        android:id="@+id/profile_button"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        app:layout_constraintEnd_toEndOf="@id/footer"
+        app:layout_constraintHorizontal_bias="0.85"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="@id/footer"
+        app:layout_constraintTop_toTopOf="@id/footer"
+        custom:srcCompat="@drawable/baseline_person_24" />
+
+    <ImageView
+        android:id="@+id/post_review_button"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        app:layout_constraintStart_toStartOf="@id/footer"
+        app:layout_constraintTop_toTopOf="@id/footer"
+        app:layout_constraintEnd_toEndOf="@id/footer"
+        custom:srcCompat="@drawable/baseline_add_box_24"
+        android:visibility="gone"
+        android:layout_marginTop="20dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".User_Profile"
+    android:background="#f4f1de">
+
+    <TextView
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#023047"
+        android:fontFamily="sans-serif"
+        android:gravity="left"
+        android:padding="32dp"
+        android:text="BEACHPLEASE"
+        android:textColor="@android:color/white"
+        android:textFontWeight="900"
+        android:textSize="28sp"
+        app:layout_constraintBottom_toTopOf="@id/user_content_scrollview"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:id="@+id/user_content_scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/footer"
+        app:layout_constraintTop_toBottomOf="@+id/header"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:id="@+id/user_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="24dp"
+            app:layout_constraintTop_toBottomOf="@id/header"
+            app:layout_constraintBottom_toTopOf="@id/footer"
+            app:layout_constraintStart_toEndOf="parent">
+
+            <LinearLayout
+                android:id="@+id/register_login_form"
+                android:layout_width="match_parent"
+                android:layout_height="500dp"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:padding="24dp"
+                app:layout_constraintTop_toBottomOf="@id/header"
+                app:layout_constraintBottom_toTopOf="@id/footer"
+                app:layout_constraintStart_toEndOf="parent"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:id="@+id/register_login_option_wrapper"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginBottom="32dp">
+
+                    <TextView
+                        android:id="@+id/register_option"
+                        android:layout_width="160dp"
+                        android:layout_height="match_parent"
+                        android:text="REGISTER"
+                        android:fontFamily="sans-serif"
+                        android:textFontWeight="900"
+                        android:textSize="24dp"
+                        android:padding="16dp"
+                        android:textAlignment="center"
+                        android:background="#2a9d8f"
+                        android:textColor="@color/white"
+                        app:layout_constraintEnd_toEndOf="@id/register_login_option_wrapper"
+                        app:layout_constraintHorizontal_bias="0.15"
+                        app:layout_constraintStart_toStartOf="@id/register_login_option_wrapper"
+                        app:layout_constraintTop_toTopOf="@id/register_login_option_wrapper" />
+
+                    <TextView
+                        android:id="@+id/login_option"
+                        android:layout_width="160dp"
+                        android:layout_height="match_parent"
+                        android:fontFamily="sans-serif"
+                        android:padding="16dp"
+                        android:text="LOGIN"
+                        android:textAlignment="center"
+                        android:background="#bee3db"
+                        android:textFontWeight="900"
+                        android:textSize="24dp"
+                        app:layout_constraintEnd_toEndOf="@id/register_login_option_wrapper"
+                        app:layout_constraintHorizontal_bias="0.15"
+                        app:layout_constraintStart_toStartOf="@id/register_login_option_wrapper"
+                        app:layout_constraintTop_toTopOf="@id/register_login_option_wrapper" />
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/username_field"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:layout_marginBottom="24dp"
+                    android:hint="Enter username"/>
+
+                <EditText
+                    android:id="@+id/email_field"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:hint="Enter email"
+                    android:layout_marginBottom="24dp"
+                    android:inputType="textEmailAddress"/>
+
+                <EditText
+                    android:id="@+id/password_field"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:hint="Password"
+                    android:layout_marginBottom="32dp"
+                    android:inputType="textPassword"/>
+
+                <Button
+                    android:id="@+id/register_login_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:textFontWeight="900"
+                    android:backgroundTint="#2a9d8f"
+                    android:padding="16dp"
+                    android:text="Register"/>
+
+                <TextView
+                    android:id="@+id/register_login_error_msg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/quantum_amber900"
+                    android:textFontWeight="900"
+                    android:layout_marginTop="24dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/validated_user_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_marginTop="0dp">
+                <TextView
+                    android:id="@+id/user_content_username"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:textFontWeight="900"
+                    android:textSize="24sp"
+                    android:layout_marginBottom="20dp"
+                    android:text="" />
+                <LinearLayout
+                    android:id="@+id/current_user_reviews"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="20sp">
+                    <TextView
+                        android:id="@+id/no_reviews_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp"
+                        android:textFontWeight="700"
+                        android:fontFamily="sans-serif"
+                        android:textColor="@color/quantum_grey700"
+                        android:text="No reviews yet!"
+                        android:visibility="gone"/>
+                </LinearLayout>
+                <Button
+                    android:id="@+id/logout_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:textFontWeight="900"
+                    android:textSize="16sp"
+                    android:text="Logout"
+                    android:backgroundTint="#ff6b6b"/>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/footer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#023047"
+        android:gravity="left"
+        android:padding="32dp"
+        android:textColor="@android:color/white"
+        android:textSize="28sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/user_content_scrollview"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <ImageView
+        android:id="@+id/home_button"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        app:layout_constraintEnd_toEndOf="@id/footer"
+        app:layout_constraintHorizontal_bias="0.15"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="@id/footer"
+        app:layout_constraintTop_toTopOf="@id/footer"
+        custom:srcCompat="@drawable/baseline_home_24" />
+
+    <ImageView
+        android:id="@+id/profile_button"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        app:layout_constraintEnd_toEndOf="@id/footer"
+        app:layout_constraintHorizontal_bias="0.85"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="@id/footer"
+        app:layout_constraintTop_toTopOf="@id/footer"
+        custom:srcCompat="@drawable/baseline_person_24" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
