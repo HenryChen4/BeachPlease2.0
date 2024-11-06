@@ -151,7 +151,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
                         .title("You are here"));
 
-                Log.i("String", current_latlng.latitude + "," +current_latlng.longitude);
+                Log.i("String", current_latlng.latitude + ", " +current_latlng.longitude);
 
                 getNearestBeachesString(USC_LONGITUDE, USC_LATITUDE, new OnBeachFind() {
                     @Override
@@ -199,13 +199,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                                     });
                                 }
 
-                                List<String> active_tags = new ArrayList<String>();
-                                for(int c = 0; c < chip_group.getChildCount(); c++){
-                                    if(tag_chip.isSelected()){
-                                        active_tags.add(tag_chip.getText().toString());
-                                    }
-                                }
-
                                 runOnUiThread(() -> {
                                     googleMap.clear();
                                     LatLng current_latlng = new LatLng(USC_LATITUDE, USC_LONGITUDE);
@@ -220,6 +213,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                                         @Override
                                         public void onMostTagsFound(String[] most_used_tags) {
                                             Log.i("str", beach.getName() +": "+most_used_tags[0] +", "+most_used_tags[1]);
+
+                                            List<String> active_tags = new ArrayList<String>();
+                                            for(int c = 0; c < chip_group.getChildCount(); c++){
+                                                Chip active_tag_chip = (Chip) chip_group.getChildAt(c);
+                                                if(active_tag_chip.isSelected()){
+                                                    active_tags.add(active_tag_chip.getText().toString());
+                                                    Log.i("str", "active tag: " + active_tag_chip.getText().toString());
+                                                }
+                                            }
 
                                             beach.setMost_used_tags(most_used_tags);
 
