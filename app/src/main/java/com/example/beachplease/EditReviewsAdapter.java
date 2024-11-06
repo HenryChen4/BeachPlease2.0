@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -73,6 +74,10 @@ public class EditReviewsAdapter extends RecyclerView.Adapter<EditReviewsAdapter.
         }
 
         public void setActivityTags(List<String> tags) {
+            if (tags == null) {
+                tags = new ArrayList<String>(); // Set to an empty list to avoid NullPointerException
+            }
+
             // Find the ChipGroup and each Chip by their ID
 //            ChipGroup chipGroup = findViewById(R.id.activityTagsChipGroup);
             Chip chipSwimming = activityTags.findViewById(R.id.chipSwimming);

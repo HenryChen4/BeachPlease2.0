@@ -61,8 +61,6 @@
                 android:id="@+id/activityTags"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="16dp"
                 app:layout_constraintBottom_toTopOf="@id/reviewCommentText"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.498"
@@ -78,6 +76,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Swim"
+                    android:textSize="12dp"
                     app:chipBackgroundColor="#fac5c8"
                     app:chipIconVisible="false"
                     app:closeIconEnabled="false" />
