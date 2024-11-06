@@ -23,15 +23,113 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/reviewText"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/beachName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Beach Name"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:layout_weight= "1"/>
+
+                <RatingBar
+                    android:id="@+id/reviewStars"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/darker_gray"
+                    android:numStars="5"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="8sp"
+                    style="?android:attr/ratingBarStyleSmall"/>
+
+                <TextView
+                    android:id="@+id/numStars"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="(5/5)"
+                    android:layout_marginRight="8sp"
+                    android:textSize="14sp"
+                    android:textColor="@android:color/darker_gray"/>
+            </LinearLayout>
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/activityTags"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Review text"
-                android:textSize="16sp" />
+                android:layout_gravity="center"
+                android:layout_margin="16dp"
+                app:layout_constraintBottom_toTopOf="@id/reviewCommentText"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/starRatingNum"
+                app:selectionRequired="false"
+                app:singleSelection="false">
+
+                <!-- Example Chip for "Swimming" -->
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipSwimming"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Swim"
+                    app:chipBackgroundColor="#fac5c8"
+                    app:chipIconVisible="false"
+                    app:closeIconEnabled="false" />
+
+                <!-- Chip for "Surfing" -->
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipSurfing"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Surf"
+                    app:chipBackgroundColor="#a7c8fa"
+                    app:chipIconVisible="false"
+                    app:closeIconEnabled="false" />
+
+                <!-- Example Chip for "Sunbathing" -->
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipSunbathing"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tan"
+                    app:chipBackgroundColor="#f9fac5"
+                    app:chipIconVisible="false"
+                    app:closeIconEnabled="false" />
+
+                <!-- Example Chip for "Volleyball" -->
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipVolleyball"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Volleyball"
+                    app:chipBackgroundColor="#dbbbf2"
+                    app:chipIconVisible="false"
+                    app:closeIconEnabled="false" />
+
+                <!-- Example Chip for "Sunset" -->
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipSunset"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sunset"
+                    app:chipBackgroundColor="#facea7"
+                    app:chipIconVisible="false"
+                    app:closeIconEnabled="false" />
+
+            </com.google.android.material.chip.ChipGroup>
 
             <TextView
-                android:id="@+id/reviewStars"
+                android:id="@+id/reviewComment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="5 stars"
