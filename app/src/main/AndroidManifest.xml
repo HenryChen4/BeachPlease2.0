@@ -55,6 +55,7 @@
         </activity>
         <activity android:name=".AddReviewActivity" />
         <activity android:name=".EditReviewActivity" />
+        <activity android:name=".ViewUserActivity" />
     </application>
 
 </manifest>

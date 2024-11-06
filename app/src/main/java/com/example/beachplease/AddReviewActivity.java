@@ -170,6 +170,26 @@ public class AddReviewActivity extends AppCompatActivity {
                 Log.i("ReviewUpload", "Selected Activity Tags: " + selectedActivityTags.toString());
                 Log.i("ReviewUpload", "Selected Photos: " + selectedPhotos.toString());
 
+                // listeners for button clicks
+                ImageView home_button = findViewById(R.id.home_button);
+                home_button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(AddReviewActivity.this, MainActivity.class);
+                        startActivity(intent);
+                    }
+                });
+
+                ImageView profile_button = findViewById(R.id.profile_button);
+                profile_button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Log.i("str", "user profile clicked from add review");
+                        Intent intent = new Intent(AddReviewActivity.this, User_Profile.class);
+                        startActivity(intent);
+                    }
+                });
+
                 if (stars > 0){
                     System.out.println("Trying to submit review");
                     Review reviewInstance = new Review();

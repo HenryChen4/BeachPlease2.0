@@ -225,10 +225,11 @@
                     android:layout_height="wrap_content"
                     android:text="Post"
                     android:textColor="@color/white"
-                    android:background="@color/MainBlue"
+                    android:backgroundTint="@color/MainBlue"
                     android:padding="12dp"
                     android:elevation="2dp" />
             </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
 

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main"
+    android:fillViewport="true"
+    android:background="#f4f1de"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Header TextView -->
+    <TextView
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif"
+        android:text="BEACHPLEASE"
+        android:textFontWeight="900"
+        android:textSize="28sp"
+        android:textColor="@android:color/white"
+        android:gravity="left"
+        android:padding="32dp"
+        android:background="@color/MainBlue"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Title TextView below header -->
+    <TextView
+        android:id="@+id/titleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Previous Reviews"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/header"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/numTotalReviews"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/titleTextView"
+        app:layout_constraintBottom_toTopOf="@id/main_content_scroll_view"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="12dp"
+        android:textSize="18sp"
+        android:textStyle="italic"
+        android:textColor="@color/black"/>
+
+    <!-- Main content ScrollView for review list -->
+    <ScrollView
+        android:id="@+id/main_content_scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        android:background="#f4f1de"
+        android:layout_marginTop="12dp"
+        app:layout_constraintTop_toBottomOf="@id/numTotalReviews"
+        app:layout_constraintBottom_toTopOf="@+id/footer">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/reviewsRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:paddingTop="8dp" />
+    </ScrollView>
+
+    <!-- Footer TextView -->
+    <TextView
+        android:id="@+id/footer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#023047"
+        android:gravity="left"
+        android:padding="32dp"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <!-- Home button in footer -->
+    <ImageView
+        android:id="@+id/home_button"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        app:layout_constraintBottom_toBottomOf="@id/footer"
+        app:layout_constraintStart_toStartOf="@id/footer"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="8dp"
+        android:src="@drawable/baseline_home_24" />
+
+    <!-- Profile button in footer -->
+    <ImageView
+        android:id="@+id/profile_button"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        app:layout_constraintBottom_toBottomOf="@id/footer"
+        app:layout_constraintEnd_toEndOf="@id/footer"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:src="@drawable/baseline_person_24" />
+
+    <!-- Post Review button centered in footer (initially hidden) -->
+    <ImageView
+        android:id="@+id/post_review_button"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        app:layout_constraintBottom_toBottomOf="@id/footer"
+        app:layout_constraintStart_toStartOf="@id/footer"
+        app:layout_constraintEnd_toEndOf="@id/footer"
+        android:src="@drawable/baseline_add_box_24"
+        android:layout_marginBottom="8dp"
+        android:visibility="gone" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+

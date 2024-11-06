@@ -165,6 +165,16 @@ public class User_Profile extends AppCompatActivity {
             }
         });
 
+        Button viewPastReviewsButton = findViewById(R.id.view_past_reviews_button);
+        viewPastReviewsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Start ViewUserActivity
+                Intent intent = new Intent(User_Profile.this, ViewUserActivity.class);
+                startActivity(intent);
+            }
+        });
+
         // display user info if already logged in
         if(!user_id.equals("-1")){
             display_user_info(current_user_id);
@@ -189,10 +199,11 @@ public class User_Profile extends AppCompatActivity {
                 if (dataSnapshot.exists()) {
                     // User with this ID exists, check further if needed
                     String username = dataSnapshot.child("username").getValue(String.class);
+                    String welcomeUser = "Hello " + username + "!";
                     runOnUiThread(() -> {
                         TextView tv = (TextView) findViewById(R.id.user_content_username);
                         tv.setVisibility(View.VISIBLE);
-                        tv.setText(username);
+                        tv.setText(welcomeUser);
                     });
                 } else {
                     Log.i("umm", "user error");

@@ -1,6 +1,7 @@
 package com.example.beachplease;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -19,6 +20,7 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -33,6 +35,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
+// USERS CAN EDIT OR DELETE REVIEW
 public class EditReviewActivity extends AppCompatActivity {
     private static final int READ_PERMISSION = 101;
 
@@ -53,6 +56,7 @@ public class EditReviewActivity extends AppCompatActivity {
 
     private Button cancelButton;
     private Button postButton;
+    private Button deleteButton;
     private DatabaseReference databaseReference;
 
 
@@ -215,7 +219,6 @@ public class EditReviewActivity extends AppCompatActivity {
                 Log.i("ReviewEdited", "Selected Photos: " + selectedPhotos.toString());
 
                 if (stars > 0){
-                    System.out.println("Trying to submit edited review");
                     Review reviewInstance = new Review();
 
                     // Set up a success listener
@@ -246,6 +249,58 @@ public class EditReviewActivity extends AppCompatActivity {
                 } else{
                     Toast.makeText(EditReviewActivity.this, "Failed to edit review. Please leave a rating", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        // DELETE REVIEW
+        deleteButton = findViewById(R.id.deleteButton);
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // Log the values to Logcat
+                Log.i("Review Deletion", "Review id: " + review_id);
+
+                // Create an AlertDialog to confirm deletion
+                new AlertDialog.Builder(EditReviewActivity.this)
+                        .setMessage("Are you sure you want to delete this review?")
+                        .setCancelable(false) // Make sure the user can't dismiss the dialog without confirming
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int id) {
+                                // Proceed with deletion if user confirms
+                                Review reviewInstance = new Review();
+
+                                // Set up a success listener
+                                reviewInstance.deleteReview(review_id, new Review.UploadCallback() {
+                                    @Override
+                                    public void onSuccess() {
+                                        System.out.println("Deletion success");
+                                        // Show a success message
+                                        Toast.makeText(EditReviewActivity.this, "Review deleted successfully!", Toast.LENGTH_SHORT).show();
+                                        // Optionally, close the activity after deleting the review
+                                        finish();
+                                    }
+
+                                    @Override
+                                    public void onFailure(Exception e) {
+                                        System.out.println("Submission failed");
+                                        // Show a failure message
+                                        Toast.makeText(EditReviewActivity.this, "Failed to delete review: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+
+                                    @Override
+                                    public void onFailure() {
+                                        System.out.println("Submission failed");
+                                        // Show a failure message
+                                        Toast.makeText(EditReviewActivity.this, "Failed to submit review: ", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+                        })
+                        .setNegativeButton("No", null) // Cancel the deletion if the user selects "No"
+                        .show();
+
             }
         });
     }

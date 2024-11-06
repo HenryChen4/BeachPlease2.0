@@ -12,13 +12,17 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.pwittchen.weathericonview.WeatherIconView;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -28,12 +32,19 @@ import com.google.android.libraries.places.api.net.FetchPlaceRequest;
 import com.google.android.libraries.places.api.net.FetchPlaceResponse;
 import com.google.android.gms.tasks.Task;
 import com.github.pwittchen.weathericonview.WeatherIconView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Calendar;
@@ -69,6 +80,14 @@ interface OnDayForecastFind {
 public class Beach_Info extends AppCompatActivity {
     String global_beach_name;
     String google_api_key = "AIzaSyAKKuEVLnbLp9TVkzTNdzDStZzxhp_DOBo";
+
+    // VIEW BEACH REVIEWS
+    private RecyclerView reviewsRecyclerView;
+    private ReviewsAdapter reviewsAdapter;  // Custom adapter to display reviews
+    private List<Review> reviewsList;
+    private FirebaseDatabase database;
+    private DatabaseReference databaseReference;
+    private String beachName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,6 +155,22 @@ public class Beach_Info extends AppCompatActivity {
         fetchWeatherRoutine(beach_coords);
 
         // TODO: run database code to view reviews
+        // Initialize Firebase database reference
+        FirebaseDatabase database = FirebaseDatabase.getInstance("https://beachplease-database-default-rtdb.firebaseio.com/");
+        databaseReference = database.getReference("Review");
+
+        // Initialize RecyclerView
+        reviewsRecyclerView = findViewById(R.id.reviewsRecyclerView);
+        reviewsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        // Initialize list and adapter
+        reviewsList = new ArrayList<>();
+        reviewsAdapter = new ReviewsAdapter(reviewsList);
+        reviewsRecyclerView.setAdapter(reviewsAdapter);
+
+        // Load reviews matching the beach name
+        loadBeachReviews(global_beach_name);
+
 
     }
 
@@ -690,5 +725,43 @@ public class Beach_Info extends AppCompatActivity {
             }
         });
         thread.start();
+    }
+
+    // LOAD BEACH REVIEWS
+    private void loadBeachReviews(String beachName) {
+        database = FirebaseDatabase.getInstance("https://beachplease-database-default-rtdb.firebaseio.com/");
+        databaseReference = database.getReference("Review");
+        Query query = databaseReference.orderByChild("beachName").equalTo(beachName);
+
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                reviewsList.clear();
+
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Review review = snapshot.getValue(Review.class);
+                    if (review != null) {
+                        reviewsList.add(review);
+                    }
+                }
+
+                // Update the TextView with the number of reviews
+                TextView beachReviewSection = findViewById(R.id.reviewSection); // Make sure the TextView has this ID in your XML
+                beachReviewSection.setText(beachName + " Reviews");
+
+                // Update the TextView with the number of reviews
+                TextView numReviews = findViewById(R.id.numTotalReviews); // Make sure the TextView has this ID in your XML
+                numReviews.setText(reviewsList.size() + " Review(s)");
+
+                reviewsAdapter.notifyDataSetChanged();  // Notify adapter of data change
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(Beach_Info.this,
+                        "Failed to load reviews: " + databaseError.getMessage(),
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

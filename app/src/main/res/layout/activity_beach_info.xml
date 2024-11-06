@@ -34,155 +34,201 @@
         app:layout_constraintTop_toBottomOf="@+id/header">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:id="@+id/content"
             android:orientation="vertical"
-            android:padding="16dp">
-
-            <TextView
-                android:id="@+id/beach_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif"
-                android:gravity="center"
-                android:text=""
-                android:textColor="#e07a5f"
-                android:textFontWeight="900"
-                android:textSize="28sp"
-                android:layout_marginBottom="8dp"/>
-
-            <TextView
-                android:id="@+id/operating_hours"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif"
-                android:gravity="center"
-                android:text=""
-                android:textColor="#81b29a"
-                android:textFontWeight="900"
-                android:textSize="20sp"
-                android:layout_marginBottom="8dp"/>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
             <LinearLayout
+                android:id="@+id/weatherInformation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center"
-                android:padding="8dp"
-                android:paddingBottom="0dp"
-                android:layout_marginBottom="0dp">
-
-                <com.github.pwittchen.weathericonview.WeatherIconView
-                    android:id="@+id/current_weather"
-                    android:layout_width="120sp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="0dp"
-                    android:layout_marginRight="10dp"
-                    android:gravity="center"/>
+                android:orientation="vertical"
+                android:padding="16dp">
 
                 <TextView
-                    android:id="@+id/cloud_cover"
-                    android:layout_width="120sp"
+                    android:id="@+id/beach_name"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="0dp"
-                    android:layout_marginRight="10dp"
                     android:fontFamily="sans-serif"
-                    android:textFontWeight="900"
                     android:gravity="center"
-                    android:textSize="32sp"/>
+                    android:text=""
+                    android:textColor="#e07a5f"
+                    android:textFontWeight="900"
+                    android:textSize="28sp"
+                    android:layout_marginBottom="8dp"/>
 
                 <TextView
-                    android:id="@+id/wave_height"
-                    android:layout_width="120sp"
+                    android:id="@+id/operating_hours"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="0dp"
-                    android:fontFamily="sans-serif"
-                    android:textFontWeight="900"
-                    android:gravity="center"
-                    android:textSize="32sp"
-                    android:text=""/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center"
-                android:layout_marginTop="0dp"
-                android:padding="0dp"
-                android:paddingTop="0dp"
-                android:layout_marginBottom="-20dp">
-
-                <TextView
-                    android:id="@+id/current_weather_label"
-                    android:layout_width="120sp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginRight="10dp"
-                    android:fontFamily="sans-serif"
-                    android:textFontWeight="900"
-                    android:gravity="center"
-                    android:textSize="16sp"
-                    android:paddingBottom="64dp"
-                    android:text="Weather"/>
-
-                <TextView
-                    android:id="@+id/water_temp_label"
-                    android:layout_width="120sp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginBottom="8dp"
                     android:fontFamily="sans-serif"
                     android:gravity="center"
-                    android:text="Cloud cover"
+                    android:text=""
+                    android:textColor="#81b29a"
                     android:textFontWeight="900"
-                    android:paddingBottom="64dp"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/wave_height_label"
-                    android:layout_width="120sp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:fontFamily="sans-serif"
-                    android:textFontWeight="900"
-                    android:paddingBottom="64dp"
-                    android:gravity="center"
-                    android:textSize="16sp"
-                    android:text="Wave height"/>
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="24 Hour Forecast"
-                android:fontFamily="sans-serif"
-                android:textFontWeight="900"
-                android:textSize="12dp"
-                android:textAlignment="center"
-                android:textColor="@color/quantum_grey"
-                android:layout_marginBottom="0dp"
-                android:layout_marginTop="-40dp"
-                android:padding="0dp"/>
-
-            <HorizontalScrollView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="24dp"
-                android:layout_marginBottom="0dp"
-                android:background="#fdfcdc">
+                    android:textSize="20sp"
+                    android:layout_marginBottom="8dp"/>
 
                 <LinearLayout
-                    android:id="@+id/day_forecast"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:paddingBottom="0dp"
+                    android:layout_marginBottom="0dp">
+
+                    <com.github.pwittchen.weathericonview.WeatherIconView
+                        android:id="@+id/current_weather"
+                        android:layout_width="120sp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="0dp"
+                        android:layout_marginRight="10dp"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:id="@+id/cloud_cover"
+                        android:layout_width="120sp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="0dp"
+                        android:layout_marginRight="10dp"
+                        android:fontFamily="sans-serif"
+                        android:textFontWeight="900"
+                        android:gravity="center"
+                        android:textSize="32sp"/>
+
+                    <TextView
+                        android:id="@+id/wave_height"
+                        android:layout_width="120sp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="0dp"
+                        android:fontFamily="sans-serif"
+                        android:textFontWeight="900"
+                        android:gravity="center"
+                        android:textSize="32sp"
+                        android:text=""/>
                 </LinearLayout>
 
-            </HorizontalScrollView>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_marginTop="0dp"
+                    android:padding="0dp"
+                    android:paddingTop="0dp"
+                    android:layout_marginBottom="-20dp">
 
+                    <TextView
+                        android:id="@+id/current_weather_label"
+                        android:layout_width="120sp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginRight="10dp"
+                        android:fontFamily="sans-serif"
+                        android:textFontWeight="900"
+                        android:gravity="center"
+                        android:textSize="16sp"
+                        android:paddingBottom="64dp"
+                        android:text="Weather"/>
+
+                    <TextView
+                        android:id="@+id/water_temp_label"
+                        android:layout_width="120sp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginBottom="8dp"
+                        android:fontFamily="sans-serif"
+                        android:gravity="center"
+                        android:text="Cloud cover"
+                        android:textFontWeight="900"
+                        android:paddingBottom="64dp"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/wave_height_label"
+                        android:layout_width="120sp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:fontFamily="sans-serif"
+                        android:textFontWeight="900"
+                        android:paddingBottom="64dp"
+                        android:gravity="center"
+                        android:textSize="16sp"
+                        android:text="Wave height"/>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="24 Hour Forecast"
+                    android:fontFamily="sans-serif"
+                    android:textFontWeight="900"
+                    android:textSize="12dp"
+                    android:textAlignment="center"
+                    android:textColor="@color/quantum_grey"
+                    android:layout_marginBottom="0dp"
+                    android:layout_marginTop="-40dp"
+                    android:padding="0dp"/>
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="24dp"
+                    android:layout_marginBottom="0dp"
+                    android:background="#fdfcdc">
+
+                    <LinearLayout
+                        android:id="@+id/day_forecast"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+                    </LinearLayout>
+
+                </HorizontalScrollView>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/reviewSection"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                app:layout_constraintTop_toBottomOf="@id/weatherInformation"
+                app:layout_constraintBottom_toTopOf="@id/numTotalReviews"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="4dp"
+                android:text="Reviews"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/numTotalReviews"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                app:layout_constraintTop_toBottomOf="@id/reviewSection"
+                app:layout_constraintBottom_toTopOf="@id/reviewsRecyclerView"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="6dp"
+                android:textSize="14sp"
+                android:textStyle="italic"
+                android:textColor="@color/black"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/reviewsRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                android:layout_marginHorizontal="16dp"/>
 
         </LinearLayout>
+
+
     </ScrollView>
 
     <TextView

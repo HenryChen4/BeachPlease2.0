@@ -222,14 +222,29 @@
                 android:id="@+id/postButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Post"
+                android:text="Update"
                 android:textColor="@android:color/white"
-                android:background="@android:color/holo_blue_dark"
+                android:backgroundTint="@color/MainBlue"
                 android:padding="12dp"
                 android:elevation="2dp" />
         </LinearLayout>
     </LinearLayout>
     </ScrollView>
+
+    <Button
+        android:id="@+id/deleteButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delete Review"
+        android:layout_gravity="center"
+        android:textStyle="italic"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/red"
+        android:padding="12dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@id/footer"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <ImageView
         android:id="@+id/closeButton"

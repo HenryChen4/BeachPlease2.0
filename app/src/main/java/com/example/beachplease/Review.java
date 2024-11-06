@@ -324,4 +324,21 @@ public class Review {
                     System.err.println("Failed to delete review: " + e.getMessage());
                 });
     }
+
+    public void deleteReview(String reviewID, UploadCallback callback) {
+        DatabaseReference deleteReviewRef = database.getReference("Review").child(reviewID);
+
+        // Delete the review
+        deleteReviewRef.removeValue()
+                .addOnCompleteListener(task -> {
+                    if(task.isSuccessful()){
+                        Log.i("str", "SUCCESS: Review uploaded");
+                        callback.onSuccess();
+                    } else {
+                        Log.e("str", "FAILURE: Review not uploaded", task.getException());
+                        callback.onFailure();
+                    }
+                });
+    }
+
 }

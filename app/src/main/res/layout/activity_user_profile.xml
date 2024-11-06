@@ -153,38 +153,46 @@
                 android:layout_marginTop="0dp">
                 <TextView
                     android:id="@+id/user_content_username"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:fontFamily="sans-serif"
                     android:textFontWeight="900"
-                    android:textSize="24sp"
-                    android:layout_marginBottom="20dp"
-                    android:text="" />
+                    android:textSize="36sp"
+                    android:layout_marginTop="40dp"
+                    android:layout_marginBottom="30dp"
+                    android:text="Hello!" />
                 <LinearLayout
                     android:id="@+id/current_user_reviews"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
+                    android:layout_weight="1"
                     android:layout_marginBottom="20sp">
-                    <TextView
-                        android:id="@+id/no_reviews_tv"
-                        android:layout_width="match_parent"
+                    <!-- Button to view past reviews -->
+                    <Button
+                        android:id="@+id/view_past_reviews_button"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="20sp"
-                        android:textFontWeight="700"
+                        android:layout_gravity="center"
                         android:fontFamily="sans-serif"
-                        android:textColor="@color/quantum_grey700"
-                        android:text="No reviews yet!"
-                        android:visibility="gone"/>
+                        android:textSize="24sp"
+                        android:text="View Past Reviews"
+                        android:backgroundTint="#3b82f6"
+                        android:textColor="@android:color/white"
+                        android:layout_marginTop="16dp"/>
                 </LinearLayout>
                 <Button
                     android:id="@+id/logout_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:fontFamily="sans-serif"
                     android:textFontWeight="900"
                     android:textSize="16sp"
                     android:text="Logout"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginBottom="40dp"
                     android:backgroundTint="#ff6b6b"/>
             </LinearLayout>
         </LinearLayout>
