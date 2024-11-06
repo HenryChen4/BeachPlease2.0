@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#023047"
+        android:fontFamily="sans-serif"
+        android:gravity="left"
+        android:padding="32dp"
+        android:text="BEACHPLEASE"
+        android:textColor="@android:color/white"
+        android:textFontWeight="900"
+        android:textSize="28sp"
+        app:layout_constraintBottom_toTopOf="@id/main_content_scroll_view"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:id="@+id/main_content_scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        android:background="#f4f1de"
+        app:layout_constraintBottom_toTopOf="@+id/footer"
+        app:layout_constraintTop_toBottomOf="@+id/header">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/beachReviewText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Add a Beach Review"
+                app:layout_constraintBottom_toTopOf="@id/starRatingNum"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginBottom="16dp"
+                android:textStyle="bold"
+                android:textSize="24sp"/>
+
+            <RatingBar
+                android:id="@+id/starRatingNum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="8dp"
+                android:numStars="5"
+                android:stepSize="1"
+                android:progressTint="@android:color/holo_orange_light"
+                app:layout_constraintBottom_toTopOf="@id/activityTagsChipGroup"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/beachReviewText"
+                app:layout_constraintVertical_bias="1.0" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/activityTagsChipGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="16dp"
+                app:layout_constraintBottom_toTopOf="@id/reviewCommentText"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/starRatingNum"
+                app:selectionRequired="false"
+                app:singleSelection="false">
+
+                <!-- Example Chip for "Swimming" -->
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipSwimming"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Swim"
+                    app:chipBackgroundColor="#fac5c8"
+                    app:chipIconVisible="false"
+                    app:closeIconEnabled="false" />
+
+                <!-- Chip for "Surfing" -->
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipSurfing"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Surf"
+                    app:chipBackgroundColor="#a7c8fa"
+                    app:chipIconVisible="false"
+                    app:closeIconEnabled="false" />
+
+                <!-- Example Chip for "Sunbathing" -->
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipSunbathing"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tan"
+                    app:chipBackgroundColor="#f9fac5"
+                    app:chipIconVisible="false"
+                    app:closeIconEnabled="false" />
+
+                <!-- Example Chip for "Volleyball" -->
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipVolleyball"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Volleyball"
+                    app:chipBackgroundColor="#dbbbf2"
+                    app:chipIconVisible="false"
+                    app:closeIconEnabled="false" />
+
+                <!-- Example Chip for "Sunset" -->
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipSunset"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sunset"
+                    app:chipBackgroundColor="#facea7"
+                    app:chipIconVisible="false"
+                    app:closeIconEnabled="false" />
+
+            </com.google.android.material.chip.ChipGroup>
+
+            <EditText
+                android:id="@+id/reviewCommentText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:ems="10"
+                android:gravity="start|top"
+                android:inputType="textMultiLine"
+                android:hint="Leave a review"
+                app:layout_constraintBottom_toTopOf="@id/selectImagesButton"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/activityTagsChipGroup"
+                android:layout_marginHorizontal="30sp"/>
+
+            <Button
+                android:id="@+id/selectImagesButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Add photos"
+                android:textColor="@color/MainBlue"
+                android:padding="12dp"
+                android:background="@drawable/button_with_border"
+                android:layout_marginHorizontal="32dp"
+                app:layout_constraintTop_toBottomOf="@id/reviewCommentText"
+                app:layout_constraintBottom_toTopOf="@id/numTotalPhotos"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="16dp"
+                android:gravity="center" />
+
+            <TextView
+                android:id="@+id/numTotalPhotos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                app:layout_constraintTop_toBottomOf="@id/selectImagesButton"
+                app:layout_constraintBottom_toTopOf="@id/imagesRecyclerView"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="5dp"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"/>
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/imagesRecyclerView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginHorizontal="32dp"
+                app:layout_constraintTop_toBottomOf="@id/numTotalPhotos"
+                app:layout_constraintBottom_toTopOf="@id/cancelSubmitButtons"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/cancelSubmitButtons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/imagesRecyclerView"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginTop="16dp">
+
+                <Button
+                    android:id="@+id/cancelButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cancel"
+                    android:textColor="@color/red"
+                    android:background="@drawable/button_with_border"
+                    android:layout_marginEnd="16dp"
+                    android:padding="12dp"
+                    android:elevation="2dp" />
+
+                <Button
+                    android:id="@+id/postButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Post"
+                    android:textColor="@color/white"
+                    android:background="@color/MainBlue"
+                    android:padding="12dp"
+                    android:elevation="2dp" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <ImageView
+        android:id="@+id/closeButton"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@android:drawable/ic_menu_close_clear_cancel"
+        android:contentDescription="Close"
+        app:layout_constraintTop_toTopOf="@id/main_content_scroll_view"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/footer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#023047"
+        android:gravity="left"
+        android:padding="32dp"
+        android:textColor="@android:color/white"
+        android:textSize="28sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/main_content_scroll_view"
+        tools:layout_editor_absoluteX="16dp" />
+
+    <ImageView
+        android:id="@+id/home_button"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        app:layout_constraintEnd_toEndOf="@id/footer"
+        app:layout_constraintHorizontal_bias="0.15"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="@id/footer"
+        app:layout_constraintTop_toTopOf="@id/footer"
+        custom:srcCompat="@drawable/baseline_home_24" />
+
+    <ImageView
+        android:id="@+id/profile_button"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        app:layout_constraintEnd_toEndOf="@id/footer"
+        app:layout_constraintHorizontal_bias="0.85"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="@id/footer"
+        app:layout_constraintTop_toTopOf="@id/footer"
+        custom:srcCompat="@drawable/baseline_person_24" />
+
+    <ImageView
+        android:id="@+id/post_review_button"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        app:layout_constraintStart_toStartOf="@id/footer"
+        app:layout_constraintTop_toTopOf="@id/footer"
+        app:layout_constraintEnd_toEndOf="@id/footer"
+        custom:srcCompat="@drawable/baseline_add_box_24"
+        android:visibility="gone"
+        android:layout_marginTop="20dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

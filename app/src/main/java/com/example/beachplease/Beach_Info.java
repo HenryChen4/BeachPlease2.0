@@ -110,10 +110,13 @@ public class Beach_Info extends AppCompatActivity {
         });
 
         ImageView review_button = findViewById(R.id.post_review_button);
+        // Add a review
         review_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Beach_Info.this, Review_Beach.class);
+                Intent intent = new Intent(Beach_Info.this, AddReviewActivity.class);
+                intent.putExtra("beach_name", global_beach_name);
+                intent.putExtra("User_ID", current_user_id);
                 startActivity(intent);
             }
         });
