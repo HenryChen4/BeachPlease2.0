@@ -74,6 +74,7 @@ public class EditReviewActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String review_id = intent.getStringExtra("Review_ID");
+        Log.d("EditReviewActivity", "Received review id: " + review_id);
         String beach_name = intent.getStringExtra("Beach_Name");
         float old_numStars = intent.getFloatExtra("Num_Stars", 0);
         String old_comment = intent.getStringExtra("Review_Comment");

@@ -38,6 +38,103 @@
             tools:context=".MainActivity" />
     </FrameLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="parent"
+        android:gravity="center">
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/tag_chip_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            app:layout_constraintBottom_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="parent"
+            app:singleSelection="false"
+            android:layout_marginTop="340dp">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/swim_tag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkable="true"
+                android:checked="false"
+                android:fontFamily="sans-serif"
+                android:text="Swim"
+                android:textColor="#f7fff7"
+                app:chipStrokeWidth="3dp"
+                app:chipStrokeColor="#9cafb7"
+                android:textSize="16dp"
+                app:chipBackgroundColor="#8ac926"
+                app:chipCornerRadius="100dp" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/surf_tag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkable="true"
+                android:checked="false"
+                android:fontFamily="sans-serif"
+                android:text="Surf"
+                android:textColor="#f7fff7"
+                app:chipStrokeWidth="3dp"
+                app:chipStrokeColor="#9cafb7"
+                android:textSize="16dp"
+                app:chipBackgroundColor="#98c1d9"
+                app:chipCornerRadius="100dp" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/tan_tag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkable="true"
+                android:checked="false"
+                android:fontFamily="sans-serif"
+                android:text="Tan"
+                android:textColor="#f7fff7"
+                app:chipStrokeWidth="3dp"
+                app:chipStrokeColor="#9cafb7"
+                android:textSize="16dp"
+                app:chipBackgroundColor="#ff595e"
+                app:chipCornerRadius="100dp" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/volleyball_tag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkable="true"
+                android:checked="false"
+                android:fontFamily="sans-serif"
+                android:text="Volleyball"
+                android:textColor="#f7fff7"
+                app:chipStrokeWidth="3dp"
+                app:chipStrokeColor="#9cafb7"
+                android:textSize="16dp"
+                app:chipBackgroundColor="#ffca3a"
+                app:chipCornerRadius="100dp" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/sunset_tag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkable="true"
+                android:checked="false"
+                android:fontFamily="sans-serif"
+                android:text="Sunset"
+                android:textColor="#f7fff7"
+                app:chipStrokeWidth="3dp"
+                app:chipStrokeColor="#9cafb7"
+                android:textSize="16dp"
+                app:chipBackgroundColor="#90e0ef"
+                app:chipCornerRadius="100dp"
+                />
+        </com.google.android.material.chip.ChipGroup>
+    </LinearLayout>
+
     <TextView
         android:id="@+id/footer"
         android:layout_width="match_parent"

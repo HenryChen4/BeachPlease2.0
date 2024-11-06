@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
@@ -31,6 +33,14 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
+import com.google.android.material.color.MaterialColors;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -49,6 +59,8 @@ class Beach{
     private double longitude;
     private double latitude;
 
+    public String[] most_used_tags;
+
     public Beach(String name, double longitude, double latitude) {
         this.name = name;
         this.longitude = longitude;
@@ -64,6 +76,7 @@ class Beach{
     public double getLatitude(){
         return latitude;
     }
+    public void setMost_used_tags(String[] most_used_tags) {this.most_used_tags = most_used_tags;}
 }
 
 interface OnBeachFind {
@@ -72,6 +85,10 @@ interface OnBeachFind {
 
 interface OnUserLocationFind {
     void onLocationFound(Location user_location);
+}
+
+interface OnMostTagsFind {
+    void onMostTagsFound(String[] most_used_tags);
 }
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -134,7 +151,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
                         .title("You are here"));
 
-                Log.i("String", current_latlng.latitude + "," +current_latlng.longitude);
+                Log.i("String", current_latlng.latitude + ", " +current_latlng.longitude);
 
                 getNearestBeachesString(USC_LONGITUDE, USC_LATITUDE, new OnBeachFind() {
                     @Override
@@ -150,8 +167,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                                 LatLng beach_pin = new LatLng(beach.getLatitude(), beach.getLongitude());
                                 Log.i("string", "name:"+beach.getName());
                                 Marker beach_marker = googleMap.addMarker(new MarkerOptions()
-                                                               .position(beach_pin)
-                                                               .title(beach.getName()));
+                                        .position(beach_pin)
+                                        .title(beach.getName()));
                                 beach_marker.setTag(beach_pin.longitude + "," + beach_pin.latitude);
                                 bounds_builder.include(beach_pin);
                             });
@@ -161,6 +178,71 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                             int padding = 100;
                             googleMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds_builder.build(), padding));
                         });
+
+                        // listeners for tag clicks
+                        ChipGroup chip_group = (ChipGroup) findViewById(R.id.tag_chip_group);
+
+                        for (int i = 0; i < chip_group.getChildCount(); i++) {
+                            Chip tag_chip = (Chip) chip_group.getChildAt(i);
+                            String tag_name = tag_chip.getText().toString();
+
+                            tag_chip.setOnClickListener(v -> {
+                                if(!tag_chip.isSelected()){
+                                    runOnUiThread(() -> {
+                                        tag_chip.setSelected(true);
+                                        tag_chip.setChipStrokeColorResource(android.R.color.holo_blue_dark);
+                                    });
+                                } else {
+                                    runOnUiThread(() -> {
+                                        tag_chip.setSelected(false);
+                                        tag_chip.setChipStrokeColor(ColorStateList.valueOf(Color.parseColor("#9cafb7")));
+                                    });
+                                }
+
+                                runOnUiThread(() -> {
+                                    googleMap.clear();
+                                    LatLng current_latlng = new LatLng(USC_LATITUDE, USC_LONGITUDE);
+                                    googleMap.addMarker(new MarkerOptions()
+                                            .position(current_latlng)
+                                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
+                                            .title("You are here"));
+                                });
+
+                                for(Beach beach : nearest_beaches){
+                                    mostPopularTags(beach.getName(), new OnMostTagsFind() {
+                                        @Override
+                                        public void onMostTagsFound(String[] most_used_tags) {
+                                            Log.i("str", beach.getName() +": "+most_used_tags[0] +", "+most_used_tags[1]);
+
+                                            List<String> active_tags = new ArrayList<String>();
+                                            for(int c = 0; c < chip_group.getChildCount(); c++){
+                                                Chip active_tag_chip = (Chip) chip_group.getChildAt(c);
+                                                if(active_tag_chip.isSelected()){
+                                                    active_tags.add(active_tag_chip.getText().toString());
+                                                    Log.i("str", "active tag: " + active_tag_chip.getText().toString());
+                                                }
+                                            }
+
+                                            beach.setMost_used_tags(most_used_tags);
+
+                                            String first_most_tagged = beach.most_used_tags[0];
+                                            String second_most_tagged = beach.most_used_tags[1];
+
+                                            if(active_tags.contains(first_most_tagged) || active_tags.contains(second_most_tagged) || active_tags.size() == 0){
+                                                runOnUiThread(() -> {
+                                                    LatLng beach_pin = new LatLng(beach.getLatitude(), beach.getLongitude());
+                                                    Log.i("string", "name:"+beach.getName());
+                                                    Marker beach_marker = googleMap.addMarker(new MarkerOptions()
+                                                            .position(beach_pin)
+                                                            .title(beach.getName()));
+                                                    beach_marker.setTag(beach_pin.longitude + "," + beach_pin.latitude);
+                                                });
+                                            }
+                                        }
+                                    });
+                                }
+                            });
+                        }
                     }
                 });
             }
@@ -191,12 +273,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             return insets;
         });
 
-        // DEBUG LOCAL STORAGE
-//        SharedPreferences local_storage = getSharedPreferences("user_data", MODE_PRIVATE);
-//        SharedPreferences.Editor editor = local_storage.edit();
-//        editor.remove("user_id");
-//        editor.commit();
-
         // listeners for button clicks
         ImageView profile_button = findViewById(R.id.profile_button);
         profile_button.setOnClickListener(new View.OnClickListener() {
@@ -215,6 +291,71 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         // Main code
         beachMapRoutine();
+    }
+
+    // tag helper functions
+    private void mostPopularTags(String beach_name, OnMostTagsFind onMostTagsFind){
+        // return 2 most popular tags
+        FirebaseDatabase database = FirebaseDatabase.getInstance("https://beachplease-database-default-rtdb.firebaseio.com/");
+        DatabaseReference database_ref = database.getReference("Review");
+
+        String[] available_tags = {"Swim", "Surf", "Tan", "Volleyball", "Sunset"};
+
+        database_ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                int[] tag_count = {0, 0, 0, 0, 0};
+                for(DataSnapshot reviewSnapShot : snapshot.getChildren()){
+                    String beachName = reviewSnapShot.child("beachName").getValue(String.class);
+                    if(beachName != null){
+                        if(beachName.equals(beach_name)){
+                            ArrayList<String> activity_tags = new ArrayList<>();
+                            for(DataSnapshot tagSnapshot : reviewSnapShot.child("activityTags").getChildren()) {
+                                String tag = tagSnapshot.getValue(String.class);
+                                activity_tags.add(tag);
+                            }
+                            for(String tag : activity_tags){
+                                for(int i = 0; i < available_tags.length; i++){
+                                    if(tag.equals(available_tags[i])){
+                                        tag_count[i]++;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                int first_idx = -1;
+                int second_idx = -1;
+                for(int i = 0; i < tag_count.length-1; i++){
+                    int first = tag_count[i];
+                    int second = tag_count[i + 1];
+                    if(second > first){
+                        first_idx = i + 1;
+                        second_idx = i;
+                    }
+                }
+
+                String first_tagged = "";
+                String second_tagged = "";
+
+                if(first_idx != -1 && second_idx != -1){
+                    first_tagged = available_tags[first_idx];
+                    second_tagged = available_tags[second_idx];
+                } else if(first_idx != -1){
+                    first_tagged = available_tags[first_idx];
+                }
+
+                String[] most_tagged = {first_tagged, second_tagged};
+                onMostTagsFind.onMostTagsFound(most_tagged);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.i("str", "error when calculating tags");
+            }
+        });
     }
 
     // Nearest beach helper functions
@@ -269,6 +410,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             Beach beach = new Beach(beach_name, beach_long, beach_lat);
             beach_list.add(beach);
         }
+
         return beach_list;
     }
 }

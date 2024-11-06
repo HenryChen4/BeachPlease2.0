@@ -58,6 +58,60 @@
                     android:textSize="28sp"
                     android:layout_marginBottom="8dp"/>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/average_wrapper"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="8dp"
+                    android:gravity="center"
+                    android:paddingHorizontal="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="No tags yet!"
+                        android:id="@+id/no_tags_header"
+                        android:visibility="gone"/>
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:id="@+id/most_pop_tags"
+                        android:visibility="gone">
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/most_pop_tag_1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="12dp"
+                            android:textColor="#f7fff7"
+                            app:chipBackgroundColor="#ff595e"
+                            app:chipCornerRadius="100dp"
+                            android:visibility="gone"/>
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/most_pop_tag_2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="12dp"
+                            android:textColor="#f7fff7"
+                            app:chipBackgroundColor="#90e0ef"
+                            app:chipCornerRadius="100dp"
+                            android:visibility="gone"/>
+                    </com.google.android.material.chip.ChipGroup>
+
+                    <RatingBar
+                        android:id="@+id/overview_rating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="120dp"
+                        android:layout_gravity="center_vertical"
+                        android:rating="0"
+                        android:stepSize="0.5"
+                        style="@style/Widget.AppCompat.RatingBar.Small">
+                    </RatingBar>
+                </LinearLayout>
+
                 <TextView
                     android:id="@+id/operating_hours"
                     android:layout_width="match_parent"
