@@ -169,6 +169,7 @@ public class User_Profile extends AppCompatActivity {
         viewPastReviewsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.i("intent", "intnet is supposed to start");
                 // Start ViewUserActivity
                 Intent intent = new Intent(User_Profile.this, ViewUserActivity.class);
                 startActivity(intent);

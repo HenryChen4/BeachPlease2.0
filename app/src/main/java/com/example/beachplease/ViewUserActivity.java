@@ -55,7 +55,7 @@ public class ViewUserActivity  extends AppCompatActivity {
     private static final int REQUEST_CODE_EDIT_REVIEW = 1;
     private ActivityResultLauncher<Intent> editReviewLauncher;
 
-
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
@@ -133,6 +133,7 @@ public class ViewUserActivity  extends AppCompatActivity {
         EditReviewsAdapter adapter = new EditReviewsAdapter(reviewsList, new EditReviewsAdapter.OnEditClickListener() {
             @Override
             public void onEditClick(Review review) {
+                Log.i("str", "========================> EDIT REVIEW SHOULD START");
                 // Create the Intent to edit the review
                 Intent intent = new Intent(ViewUserActivity.this, EditReviewActivity.class);
 

@@ -263,6 +263,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.i("intent", "intent started");
         // Initialization code
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);

@@ -64,6 +64,8 @@ public class EditReviewActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.i("I", "============> INTENT IS BEING CALLED");
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_review);
 
@@ -84,9 +86,29 @@ public class EditReviewActivity extends AppCompatActivity {
 
         public_review_id = review_id;
 
+        ImageView home_button = findViewById(R.id.home_button);
+        home_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(EditReviewActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        ImageView profile_button = findViewById(R.id.profile_button);
+        profile_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("str", "user profile clicked from view user activity");
+                Intent intent = new Intent(EditReviewActivity.this, User_Profile.class);
+                startActivity(intent);
+            }
+        });
+
         String user_id = "-1";
         SharedPreferences local_storage = getSharedPreferences("user_info", MODE_PRIVATE);
-        if (!local_storage.getString("current_user", "-1").equals("-1")) { // checks if current user_id
+        String current_user_id = local_storage.getString("user_id", "-1");
+        if (!current_user_id.equals("-1")) { // checks if current user_id
             user_id = local_storage.getString("current_user", "-1");
         }
 

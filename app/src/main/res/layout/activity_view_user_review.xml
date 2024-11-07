@@ -86,10 +86,11 @@
         android:id="@+id/home_button"
         android:layout_width="64dp"
         android:layout_height="64dp"
-        app:layout_constraintBottom_toBottomOf="@id/footer"
+        android:layout_marginTop="20dp"
+        app:layout_constraintHorizontal_bias="0.15"
+        app:layout_constraintTop_toTopOf="@id/footer"
         app:layout_constraintStart_toStartOf="@id/footer"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="8dp"
+        app:layout_constraintEnd_toEndOf="@id/footer"
         android:src="@drawable/baseline_home_24" />
 
     <!-- Profile button in footer -->
@@ -97,10 +98,11 @@
         android:id="@+id/profile_button"
         android:layout_width="64dp"
         android:layout_height="64dp"
-        app:layout_constraintBottom_toBottomOf="@id/footer"
+        android:layout_marginTop="20dp"
+        app:layout_constraintHorizontal_bias="0.85"
+        app:layout_constraintTop_toTopOf="@id/footer"
         app:layout_constraintEnd_toEndOf="@id/footer"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp"
+        app:layout_constraintStart_toStartOf="@id/footer"
         android:src="@drawable/baseline_person_24" />
 
     <ImageView

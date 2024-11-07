@@ -690,7 +690,7 @@ public class Beach_Info extends AppCompatActivity {
         thread.start();
     }
 
-    private void fetchOverviewRoutine(){
+    public void fetchOverviewRoutine(){
         mostPopularTags(global_beach_name, new OnMostTagsFind() {
             @Override
             public void onMostTagsFound(String[] most_used_tags) {
@@ -708,11 +708,20 @@ public class Beach_Info extends AppCompatActivity {
                         ChipGroup most_pop_tags = (ChipGroup) findViewById(R.id.most_pop_tags);
                         most_pop_tags.setVisibility(View.VISIBLE);
 
-                        if(most_used_tags.length == 1){
+                        if(most_used_tags[0].equals("") && most_used_tags[1].equals("")){
+                            most_pop_tags.setVisibility(View.VISIBLE);
+                            Chip most_pop_tag_1 = (Chip) findViewById(R.id.most_pop_tag_1);
+                            most_pop_tag_1.setVisibility(View.GONE);
+                            Chip most_pop_tag_2 = (Chip) findViewById(R.id.most_pop_tag_2);
+                            most_pop_tag_2.setVisibility(View.GONE);
+                            no_tags.setVisibility(View.VISIBLE);
+                        } else if(!most_used_tags[0].equals("") && most_used_tags[1].equals("")){
                             Chip most_pop_tag_1 = (Chip) findViewById(R.id.most_pop_tag_1);
                             most_pop_tag_1.setText(most_used_tags[0]);
                             most_pop_tag_1.setChipBackgroundColor(getChipColor(most_used_tags[0]));
                             most_pop_tag_1.setVisibility(View.VISIBLE);
+                            Chip most_pop_tag_2 = (Chip) findViewById(R.id.most_pop_tag_2);
+                            most_pop_tag_2.setVisibility(View.GONE);
                         } else {
                             Chip most_pop_tag_1 = (Chip) findViewById(R.id.most_pop_tag_1);
                             most_pop_tag_1.setText(most_used_tags[0]);
@@ -740,7 +749,7 @@ public class Beach_Info extends AppCompatActivity {
                     case "Sunset":
                         return ColorStateList.valueOf(ContextCompat.getColor(Beach_Info.this, R.color.sunset_color));  // Replace with actual color resource
                     default:
-                        return ColorStateList.valueOf(ContextCompat.getColor(Beach_Info.this, R.color.black));  // Provide a fallback color
+                        return ColorStateList.valueOf(ContextCompat.getColor(Beach_Info.this, R.color.transparent));  // Provide a fallback color
                 }
             }
         });
