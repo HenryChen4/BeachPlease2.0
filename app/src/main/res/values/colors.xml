@@ -5,4 +5,10 @@
 
     <color name="MainBlue">#023047</color>
     <color name="red">#FF0000</color>
+    <color name="swim_color">#fac5c8</color>
+    <color name="surf_color">#a7c8fa</color>
+    <color name="tan_color">#f9fac5</color>
+    <color name="volleyball_color">#dbbbf2</color>
+    <color name="sunset_color">#facea7</color>
+
 </resources>

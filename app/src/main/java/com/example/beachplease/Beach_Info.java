@@ -2,13 +2,13 @@ package com.example.beachplease;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
@@ -16,22 +16,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
-import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.github.pwittchen.weathericonview.WeatherIconView;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.libraries.places.api.model.Place;
-import com.google.android.libraries.places.api.net.FetchPlaceRequest;
-import com.google.android.libraries.places.api.net.FetchPlaceResponse;
-import com.google.android.gms.tasks.Task;
 import com.github.pwittchen.weathericonview.WeatherIconView;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
@@ -48,13 +41,11 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Calendar;
 
 import org.json.JSONObject;
 import org.json.JSONArray;
-import org.w3c.dom.Text;
 
 interface OnBeachIDFind{
     void onBeachIDFound(String beachID);
@@ -720,16 +711,36 @@ public class Beach_Info extends AppCompatActivity {
                         if(most_used_tags.length == 1){
                             Chip most_pop_tag_1 = (Chip) findViewById(R.id.most_pop_tag_1);
                             most_pop_tag_1.setText(most_used_tags[0]);
+                            most_pop_tag_1.setChipBackgroundColor(getChipColor(most_used_tags[0]));
                             most_pop_tag_1.setVisibility(View.VISIBLE);
                         } else {
                             Chip most_pop_tag_1 = (Chip) findViewById(R.id.most_pop_tag_1);
                             most_pop_tag_1.setText(most_used_tags[0]);
                             most_pop_tag_1.setVisibility(View.VISIBLE);
+                            most_pop_tag_1.setChipBackgroundColor(getChipColor(most_used_tags[0]));
                             Chip most_pop_tag_2 = (Chip) findViewById(R.id.most_pop_tag_2);
                             most_pop_tag_2.setText(most_used_tags[1]);
+                            most_pop_tag_2.setChipBackgroundColor(getChipColor(most_used_tags[1]));
                             most_pop_tag_2.setVisibility(View.VISIBLE);
                         }
                     });
+                }
+            }
+
+            public ColorStateList getChipColor(String activityChip){
+                switch (activityChip) {
+                    case "Swim":
+                        return ColorStateList.valueOf(ContextCompat.getColor(Beach_Info.this, R.color.swim_color));  // Replace with actual color resource
+                    case "Surf":
+                        return ColorStateList.valueOf(ContextCompat.getColor(Beach_Info.this, R.color.surf_color));  // Replace with actual color resource
+                    case "Tan":
+                        return ColorStateList.valueOf(ContextCompat.getColor(Beach_Info.this, R.color.tan_color));  // Replace with actual color resource
+                    case "Volleyball":
+                        return ColorStateList.valueOf(ContextCompat.getColor(Beach_Info.this, R.color.volleyball_color));  // Replace with actual color resource
+                    case "Sunset":
+                        return ColorStateList.valueOf(ContextCompat.getColor(Beach_Info.this, R.color.sunset_color));  // Replace with actual color resource
+                    default:
+                        return ColorStateList.valueOf(ContextCompat.getColor(Beach_Info.this, R.color.black));  // Provide a fallback color
                 }
             }
         });
@@ -739,6 +750,7 @@ public class Beach_Info extends AppCompatActivity {
                 runOnUiThread(() -> {
                     RatingBar overview_rating_bar = (RatingBar) findViewById(R.id.overview_rating);
                     overview_rating_bar.setRating((float) average_rating);
+                    TextView overview_rating_text = findViewById(R.id.overview_rating_text);
                 });
             }
         });

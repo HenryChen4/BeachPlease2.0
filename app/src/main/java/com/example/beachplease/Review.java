@@ -265,6 +265,8 @@ public class Review {
 
     public void editReview(String reviewID, String newBeachName, float newNumStars, String newReviewComment, List<String> newReviewPictures, List<String> newActivityTags, UploadCallback callback) {
         DatabaseReference editReviewRef = database.getReference("Review").child(reviewID);
+        Log.i("ReviewEdited", "Review id: " + reviewID);
+        Log.i("ReviewEdited", "Stars: " + newNumStars);
 
         // Check if each parameter is not null and update accordingly
         // Track if each update succeeds
@@ -294,23 +296,23 @@ public class Review {
 
         if (newBeachName != null) {
             expectedUpdates.incrementAndGet();
-            editReviewRef.child("Beach_Name").setValue(newBeachName, listener);
+            editReviewRef.child("beachName").setValue(newBeachName, listener);
         }
         if (newNumStars > 0) {
             expectedUpdates.incrementAndGet();
-            editReviewRef.child("Num_Stars").setValue(newNumStars, listener);
+            editReviewRef.child("numStars").setValue(newNumStars, listener);
         }
         if (newReviewComment != null) {
             expectedUpdates.incrementAndGet();
-            editReviewRef.child("Review_Comment").setValue(newReviewComment, listener);
+            editReviewRef.child("reviewComment").setValue(newReviewComment, listener);
         }
         if (newReviewPictures != null) {
             expectedUpdates.incrementAndGet();
-            editReviewRef.child("Review_Pictures").setValue(newReviewPictures, listener);
+            editReviewRef.child("reviewPictures").setValue(newReviewPictures, listener);
         }
         if (newActivityTags != null) {
             expectedUpdates.incrementAndGet();
-            editReviewRef.child("Activity_Tags").setValue(newActivityTags, listener);
+            editReviewRef.child("activityTags").setValue(newActivityTags, listener);
         }
 
         // If there were no updates to make, call success immediately

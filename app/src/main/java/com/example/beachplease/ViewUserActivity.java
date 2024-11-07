@@ -11,7 +11,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.graphics.Insets;
@@ -49,6 +52,10 @@ public class ViewUserActivity  extends AppCompatActivity {
     private RecyclerView imagesRecyclerView;
     private ImagesAdapter imagesAdapter;
 
+    private static final int REQUEST_CODE_EDIT_REVIEW = 1;
+    private ActivityResultLauncher<Intent> editReviewLauncher;
+
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
@@ -58,6 +65,18 @@ public class ViewUserActivity  extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        // Initialize the ActivityResultLauncher
+        editReviewLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == RESULT_OK) {
+                        // Refresh the entire activity
+                        recreate();
+                        editReviewsAdapter.notifyDataSetChanged();
+                    }
+                }
+        );
 
         // check if user is logged in
         SharedPreferences local_storage = getSharedPreferences("user_data", MODE_PRIVATE);
@@ -128,13 +147,26 @@ public class ViewUserActivity  extends AppCompatActivity {
                 intent.putStringArrayListExtra("Activity_Tags", reviewActivities);
 
                 // Start the EditReviewActivity
-                startActivity(intent);
+//                startActivity(intent);
+//                startActivityForResult(intent, REQUEST_CODE_EDIT_REVIEW);
+                editReviewLauncher.launch(intent);
+
             }
         });
 
-// Set the adapter for the RecyclerView
+        // Set the adapter for the RecyclerView
         recyclerView.setAdapter(adapter);
     }
+
+//    // Handle the result from EditReviewActivity
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (requestCode == REQUEST_CODE_EDIT_REVIEW && resultCode == RESULT_OK) {
+//            // Refresh the list of reviews
+//            recreate();
+//        }
+//    }
 
     // LOAD BEACH REVIEWS
     private void loadUserReviews(String username) {

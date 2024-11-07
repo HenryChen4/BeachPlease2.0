@@ -81,7 +81,6 @@ public class EditReviewActivity extends AppCompatActivity {
         ArrayList<String> old_pictures = intent.getStringArrayListExtra("Review_Pictures");
         ArrayList<String> old_activityTags = intent.getStringArrayListExtra("Activity_Tags");
         System.out.println("Print activity msg");
-        Log.d("EditReviewActivity", "Received Activity Tags: " + old_activityTags);
 
         public_review_id = review_id;
 
@@ -215,18 +214,11 @@ public class EditReviewActivity extends AppCompatActivity {
                 ArrayList<String> selectedActivityTags = getSelectedActivityTags();
                 ArrayList<String> selectedPhotos = selectedImageUris;
 
-                // Log the values to Logcat
-                Log.i("ReviewEdited", "Review id: " + review_id);
-                Log.i("ReviewEdited", "Stars: " + stars);
-                Log.i("ReviewEdited", "Comment: " + comment);
-                Log.i("ReviewEdited", "Selected Activity Tags: " + selectedActivityTags.toString());
-                Log.i("ReviewEdited", "Selected Photos: " + selectedPhotos.toString());
-
                 if (stars > 0){
                     Review reviewInstance = new Review();
 
                     // Set up a success listener
-                    reviewInstance.editReview(review_id, beach_name, stars, comment, selectedPhotos, selectedActivityTags, new Review.UploadCallback() {
+                    reviewInstance.editReview(public_review_id, beach_name, stars, comment, selectedPhotos, selectedActivityTags, new Review.UploadCallback() {
                         @Override
                         public void onSuccess() {
                             System.out.println("Submission success");
