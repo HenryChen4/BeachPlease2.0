@@ -857,11 +857,16 @@ public class Beach_Info extends AppCompatActivity {
 
                 int first_idx = -1;
                 int second_idx = -1;
-                for(int i = 0; i < tag_count.length-1; i++){
-                    int first = tag_count[i];
-                    int second = tag_count[i + 1];
-                    if(second > first){
-                        first_idx = i + 1;
+                int first = 0;
+                int second = 0;
+                for(int i = 0; i < tag_count.length; i++){
+                    if (tag_count[i] > first) {
+                        second = first;
+                        second_idx = first_idx;
+                        first = tag_count[i];
+                        first_idx = i;
+                    } else if (tag_count[i] > second) {
+                        second = tag_count[i];
                         second_idx = i;
                     }
                 }
